@@ -23,38 +23,65 @@ shariki = [] #вся инфа про шарики сюда
 
 
 def new_sharik():
-    #рандомная генерация шариков в разных точках с разным радиусом
+    '''
+    Создает новый шарик
+    x, y - рандомные значения центра шара
+    r - рандомный радиус
+    color - выбирает рандомный цвет, заданные в начале списком COLORS
+    shariki.append - добавляет корды центра и радиуса шарика в список всех шаров
+    '''
     x = randint(100, 700)
     y = randint(100, 500)
     r = randint(30, 50)
     color = COLORS[randint(0, 5)]
-    shariki.append((x, y, r, color))  # добавление кордов центра и радиуса шарика в список
+    shariki.append((x, y, r, color))
 
 
 
 def risuem_sharik():
-    #показывает шары
+    '''
+    Рисует шары на экране
+    for ... in ... - берет шар из общего списка
+    присвает x, y, z, color все сохраненные значения
+    '''
     for ball in shariki:
         x, y, r, color = ball
         circle(screen, color, (x, y), r)
 
 def risovat_text(screen, text, x, y):
+    '''
+    Функция для отображения счетчика на экране (при помощи интернета)
+    ... font.render - функция в питоне, дающая рендерить какой-либо текст через библиотеку pygame с определенными параметрами
+
+    '''
     text_surface = font.render(text, True, (255, 255, 255))
     screen.blit(text_surface, (x, y))
 def proverka(x_click, y_click):
-    #проверяет, попал ли курсор в шарик и добавляет очко если попал
+    '''
+    Проверяет, попал ли курсор в шарик и добавляет очко в общий счет в конце, если попал.
+    Добавляет в счетчик на экране +1 для дальнейшего вывода на экран
+    вызывает в функцию координаты курсора (x_click, y_click)
+    for ... in ... - берет шарик из общего списка шариков
+    if (...) - проверяет, попал ли курсор (его координаты) в шар
+    shariki.remove(sharik) - удаление из списка всех шаров последнего шара, в который попал курсор
+    global ... - обозначает глобальные переменные, не зависящие от того, где они находятся
+    '''
     global schet, score
     for sharik in shariki:
         x, y, r, _ = sharik
         if (x_click - x)**2 + (y_click - y)**2 <= r**2:
             schet += 1
             score += 1
-            shariki.remove(sharik)  #удаление шарика, в который попал
+            shariki.remove(sharik)
             #print("Попадение:", schet)
 
 
 def handle_click(event):
-    #клик мыши
+    '''
+    if (...) - Если происходит нажатие маши, выполняется положительное условие
+    x_click, y_click - присваивает кординаты нажатия курсора
+    proverka(... ) - запускает функцию проверки клика на нахождение внутри радиуса шара
+    '''
     if event.type == pygame.MOUSEBUTTONDOWN:
         x_click, y_click = event.pos
         proverka(x_click, y_click)
@@ -79,7 +106,9 @@ while not finished:
     pygame.display.update()  #очистить экран
     screen.fill(BLACK)  #экран фул блек
     screen.fill((0, 0, 0))
-    risovat_text(screen, f"{score}", 10, 10)
+    risovat_text(screen, f"{score}", 10, 10) #
+
+#help()
 
 print("Итоговый счет:", schet)
 pygame.quit()

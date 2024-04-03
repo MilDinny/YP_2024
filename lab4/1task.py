@@ -85,5 +85,4 @@ while not finished:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     finished = True
-
 pygame.quit()
