@@ -1,3 +1,4 @@
+#command
 import math
 from random import choice, randint
 
